@@ -1,0 +1,48 @@
+//
+// Postprocessing compute shader for the pose landmark pipeline
+//
+
+#pragma kernel post_kernel
+#pragma multi_compile __ FULL_BODY
+
+#include "PoseRegion.hlsl"
+#include "LowPassFilter.hlsl"
+#include "Misc.hlsl"
+#include "Packages/jp.torinos.mediapipe.posedetector/Shader/Struct.hlsl"
+
+//
+// Kernel 3: Key point postprocess
+//
+#ifdef FULL_BODY
+    #define POST_KEYPOINT_COUNT 33
+#else
+    #define POST_KEYPOINT_COUNT 25
+#endif
+
+float _post_dt;
+float _post_scale;
+
+StructuredBuffer<float4> _post_input;
+StructuredBuffer<PoseRegion> _post_region;
+
+RWStructuredBuffer<float4> _post_output;
+
+[numthreads(POST_KEYPOINT_COUNT, 1, 1)]
+void post_kernel(uint id : SV_DispatchThreadID)
+{
+    PoseRegion region = _post_region[0];
+
+    float3 x = _post_input[id + 1].xyz;
+    float3 p_x = _post_output[id].xyz;
+    float3 p_dx = _post_output[id + POST_KEYPOINT_COUNT].xyz;
+
+    x = mul(region.cropMatrix, float4(x, 1)).xyz;
+    x.xy = (x.xy - 0.5) * _post_scale;
+
+    float3 lpf_params = float3(30, 1.5, _post_dt);
+    float3 dx = lpf_Step_dx(x, p_x, p_dx, lpf_params);
+    x = lpf_Step_x(x, p_x, dx, lpf_params);
+
+    _post_output[id] = float4(x, 1);
+    _post_output[id + POST_KEYPOINT_COUNT] = float4(dx, 1);
+}

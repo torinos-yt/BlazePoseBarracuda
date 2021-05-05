@@ -1,0 +1,149 @@
+//
+// Compute shader pipeline for tracking poselandmark
+//
+
+#pragma kernel spad_kernel
+#pragma kernel bbox_kernel
+#pragma kernel crop_kernel
+
+#include "PoseRegion.hlsl"
+#include "LowPassFilter.hlsl"
+#include "Misc.hlsl"
+#include "Packages/jp.torinos.mediapipe.posedetector/Shader/Struct.hlsl"
+
+//
+// Kernel 0: Input image scaling and padding (letterboxing)
+//
+
+uint _spad_width;
+float2 _spad_scale;
+
+sampler2D _spad_input;
+
+RWStructuredBuffer<float> _spad_output;
+
+[numthreads(8, 8, 1)]
+void spad_kernel(uint2 id : SV_DispatchThreadID)
+{
+    if (any(id > _spad_width)) return;
+
+    // UV coordinates
+    float2 uv = (id + 0.5) / _spad_width;
+    uv.y = 1 - uv.y;
+
+    // Scaling
+    uv = (uv - 0.5) * _spad_scale + 0.5;
+
+    // UV gradients
+    float2 duv_dx = float2(+1.0 / _spad_width * _spad_scale.x, 0);
+    float2 duv_dy = float2(0, -1.0 / _spad_width * _spad_scale.y);
+
+    // Texture sample
+    float3 rgb = tex2Dgrad(_spad_input, uv, duv_dx, duv_dy).rgb * 2 - 1;
+
+    // Bounding
+    rgb *= all(uv > 0) && all (uv < 1);
+
+    // Tensor element output
+    uint offs = (id.y * _spad_width + id.x) * 3;
+    _spad_output[offs + 0] = rgb.r;
+    _spad_output[offs + 1] = rgb.g;
+    _spad_output[offs + 2] = rgb.b;
+}
+
+//
+// Kernel 1: Hand region bounding box update
+//
+
+float _bbox_dt;
+int _UpperBody;
+
+StructuredBuffer<PoseDetection> _bbox_pose;
+ByteAddressBuffer _bbox_count;
+
+RWStructuredBuffer<PoseRegion> _bbox_region;
+
+[numthreads(1, 1, 1)]
+void bbox_kernel(uint id : SV_DispatchThreadID)
+{
+    uint entry_count = _bbox_count.Load(0);
+    if (entry_count == 0) return;
+
+    // Input from the pose detection model
+    const PoseDetection pose = _bbox_pose[0];
+
+    // Pose angle
+    float2 hip = pose.keyPoints[0];
+    float2 shoulder = pose.keyPoints[2];
+
+    const float2 up = hip - shoulder;
+    float angle = -(atan2(up.y, up.x) - PI / 2);
+
+    // Bounding box
+    float2 center = _UpperBody ? shoulder : hip;
+    float2 roi = _UpperBody ? pose.keyPoints[3] : pose.keyPoints[1];
+
+    // Pose region size (squarified and enlarged bounding box)
+    float size = sqrt((roi.x - center.x) * (roi.x - center.x) +
+                      (roi.y - center.y) * (roi.y - center.y)) * 3;
+
+    center.y = 1 - center.y;
+
+    // Pose region structure. We're going to update this.
+    PoseRegion region = _bbox_region[0];
+
+    // Low pass filter parameters and input vector
+    const float3 lpf_params = float3(2, 1.5f, _bbox_dt);
+    const float4 box = float4(center, size, angle);
+    region.dBox = lpf_Step_dx(box, region.box, region.dBox, lpf_params);
+    region.box = lpf_Step_x(box, region.box, region.dBox, lpf_params);
+
+    // Region crop matrix update
+    float4x4 m1 = makeTranslationMatrix(region.box.xy - region.box.z / 2);
+    float4x4 m2 = makeScalingMatrix(region.box.z);
+    float4x4 m3 = makeTranslationMatrix(0.5);
+    float4x4 m4 = makeRotationMatrix(region.box.w);
+    float4x4 m5 = makeTranslationMatrix(-0.5);
+    region.cropMatrix = mul(mul(mul(mul(m1, m2), m3), m4), m5);
+
+    // Compute buffer update
+    _bbox_region[0] = region;
+}
+
+//
+// Kernel 2: Pose region cropping
+//
+
+#define CROP_IMAGE_SIZE 256
+
+sampler2D _crop_input;
+StructuredBuffer<PoseRegion> _crop_region;
+
+RWStructuredBuffer<float> _crop_output;
+
+[numthreads(8, 8, 1)]
+void crop_kernel(uint2 id : SV_DispatchThreadID)
+{
+    float4x4 xform = _crop_region[0].cropMatrix;
+
+    // UV coordinates
+    float2 uv = (id + 0.5) / CROP_IMAGE_SIZE;
+    uv.y = 1 - uv.y;
+    uv = mul(xform, float4(uv, 0, 1)).xy;
+
+    // De-letterboxing
+    uv = (uv - 0.5) * _spad_scale + 0.5;
+
+    // UV gradients
+    float2 duv_dx = mul(xform, float4(1.0 / CROP_IMAGE_SIZE, 0, 0, 0)).xy;
+    float2 duv_dy = mul(xform, float4(0, -1.0 / CROP_IMAGE_SIZE, 0, 0)).xy;
+
+    // Texture sample
+    float3 rgb = tex2Dgrad(_crop_input, uv, duv_dx, duv_dy).rgb;
+
+    // Tensor element output
+    uint offs = (id.y * CROP_IMAGE_SIZE + id.x) * 3;
+    _crop_output[offs + 0] = rgb.r;
+    _crop_output[offs + 1] = rgb.g;
+    _crop_output[offs + 2] = rgb.b;
+}

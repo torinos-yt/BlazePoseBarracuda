@@ -1,0 +1,22 @@
+{
+  "author": "torinos",
+  "dependencies": {
+    "com.unity.barracuda": "1.4.0-preview",
+    "jp.torinos.mediapipe.posedetector": "1.0.0",
+    "jp.torinos.mediapipe.poselandmark": "1.0.0"
+  },
+  "description": "Tracking Body Landmark using Mediapipe BlazePose Model for Unity Barracuda",
+  "displayName": "Mediapipe BlazePose",
+  "keywords": [
+    "unity"
+  ],
+  "license": "MIT",
+  "name": "jp.torinos.mediapipe.blazepose",
+  "repository": {
+    "type": "git",
+    "url": "ssh://git@github.com:torinos-yt/BlazePoseBarracuda.git"
+  },
+  "unity": "2020.3",
+  "unityRelease": "0f1",
+  "version": "1.0.0"
+}

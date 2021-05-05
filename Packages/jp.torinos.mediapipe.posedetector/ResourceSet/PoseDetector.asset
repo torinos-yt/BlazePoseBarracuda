@@ -1,0 +1,18 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 07003062af9ca5547bb8c48a3d78e89b, type: 3}
+  m_Name: PoseDetector
+  m_EditorClassIdentifier: 
+  model: {fileID: 5022602860645237092, guid: 606098e0bfd6a734e94458f8f94f3de9, type: 3}
+  preprocess: {fileID: 7200000, guid: 168dcc636c58e7249b4bfbd953b4a216, type: 3}
+  postprocess1: {fileID: 7200000, guid: 950bfdeabab86914d9110471dabc635f, type: 3}
+  postprocess2: {fileID: 7200000, guid: a9e911b236ef0c24fbcb09b05826eebb, type: 3}

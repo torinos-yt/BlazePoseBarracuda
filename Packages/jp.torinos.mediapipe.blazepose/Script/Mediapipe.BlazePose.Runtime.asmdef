@@ -1,0 +1,18 @@
+{
+    "name": "Mediapipe.BlazePose.Runtime",
+    "rootNamespace": "",
+    "references": [
+        "GUID:5c2b5ba89f9e74e418232e154bc5cc7a",
+        "GUID:7ba4988d60f8bc14bac720536394195f",
+        "GUID:73d8c379463b2004d96896aeb95e19a6"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

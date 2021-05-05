@@ -1,0 +1,18 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b4309603d545b6445bfca1efc836a693, type: 3}
+  m_Name: PoseLandmark
+  m_EditorClassIdentifier: 
+  model_fullbody: {fileID: 5022602860645237092, guid: 9d49d5ceaa44d9949ad1ed8cd7c79f43, type: 3}
+  model_upperbody: {fileID: 5022602860645237092, guid: c8db2414bfb73f4418331cb266ce429f, type: 3}
+  preprocess: {fileID: 7200000, guid: dd6da94aebee4274c965c9df0359764a, type: 3}
+  postprocess: {fileID: 7200000, guid: 6a7e9525b20baa74faf3fd4c82bc1b7a, type: 3}

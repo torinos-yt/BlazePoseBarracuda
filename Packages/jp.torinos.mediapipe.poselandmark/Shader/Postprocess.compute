@@ -1,0 +1,48 @@
+#pragma kernel Postprocess
+#pragma multi_compile __ FULL_BODY
+
+// 
+// Postprocessor (tensor to vertex list conversion)
+//
+
+// Input image size (defined by the model)
+#define IMAGE_SIZE 256
+
+// Input
+StructuredBuffer<float> _Landmark;
+StructuredBuffer<float> _Flag;
+
+// Output
+RWStructuredBuffer<float4> _Output;
+
+// Vertex count (defined by the model)
+#ifdef FULL_BODY
+    #define VERTEX_COUNT 33
+#else
+    #define VERTEX_COUNT 25
+#endif
+
+float Sigmoid(float x)
+{
+    return 1 / (1 + exp(-x));
+}
+
+[numthreads(VERTEX_COUNT + 1, 1, 1)]
+void Postprocess(uint id : SV_DispatchThreadID)
+{
+    if (id == 0)
+    {
+        float score = _Flag[0];
+        _Output[0] = float4(score, 0, 0, 0);
+    }
+    else
+    {
+        uint offs = (id - 1) * 5;
+        float x =     _Landmark[offs + 0] / IMAGE_SIZE;
+        float y = 1 - _Landmark[offs + 1] / IMAGE_SIZE;
+        float z =     _Landmark[offs + 2] / IMAGE_SIZE;
+        float visibility = _Landmark[offs + 3];
+        float presence   = _Landmark[offs + 4];
+        _Output[id] = float4(x, y, z, Sigmoid(min(visibility, presence)));
+    }
+}

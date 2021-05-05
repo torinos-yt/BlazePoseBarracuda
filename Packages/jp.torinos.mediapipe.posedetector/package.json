@@ -1,0 +1,20 @@
+{
+  "author": "torinos",
+  "dependencies": {
+    "com.unity.barracuda": "1.4.0-preview"
+  },
+  "description": "Detect Pose Bounding Area using Mediapipe BlazePose Model for Unity Barracuda",
+  "displayName": "Mediapipe PoseDetector",
+  "keywords": [
+    "unity"
+  ],
+  "license": "MIT",
+  "name": "jp.torinos.mediapipe.posedetector",
+  "repository": {
+    "type": "git",
+    "url": "ssh://git@github.com:torinos-yt/BlazePoseBarracuda.git"
+  },
+  "unity": "2020.3",
+  "unityRelease": "0f1",
+  "version": "1.0.0"
+}
