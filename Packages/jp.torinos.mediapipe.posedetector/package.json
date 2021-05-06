@@ -8,7 +8,7 @@
   "keywords": [
     "unity"
   ],
-  "license": "MIT",
+  "license": "Apache-2.0",
   "name": "jp.torinos.mediapipe.posedetector",
   "repository": {
     "type": "git",
