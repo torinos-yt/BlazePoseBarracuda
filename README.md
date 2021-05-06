@@ -1,7 +1,7 @@
 BlazePoseBarracuda  
 =========================
 
-![img](https://i.imgur.com/caozLeg.gif)  
+![img](https://i.imgur.com/gOowo6H.gif)  
 
 Thisi is Pose landmark tracker that works with a monocular color camera.  
 This works by using the [MediaPipe Pose] model in [Unity Barracuda].
