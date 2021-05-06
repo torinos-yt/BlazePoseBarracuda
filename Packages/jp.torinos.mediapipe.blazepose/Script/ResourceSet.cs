@@ -8,7 +8,7 @@ namespace MediaPipe.BlazePose {
                  menuName = "ScriptableObjects/MediaPipe/BlazePose Resource Set")]
 public sealed class ResourceSet : ScriptableObject
 {
-    public PoseDetector.ResourceSet pose_resource;
+    public PoseDetect.ResourceSet pose_resource;
     public PoseLandmark.ResourceSet landmark_resource;
     public ComputeShader pipeline;
     public ComputeShader postprocess;

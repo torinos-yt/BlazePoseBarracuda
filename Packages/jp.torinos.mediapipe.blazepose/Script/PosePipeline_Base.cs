@@ -1,4 +1,4 @@
-using MediaPipe.PoseDetector;
+using MediaPipe.PoseDetect;
 using MediaPipe.PoseLandmark;
 using UnityEngine;
 
@@ -16,7 +16,7 @@ public sealed partial class PosePipeline : System.IDisposable
 
     ResourceSet _resources;
 
-    (PoseDetector.PoseDetector pose, PoseLandmarkDetector landmark) _detector;
+    (PoseDetector pose, PoseLandmarkDetector landmark) _detector;
 
     (ComputeBuffer input, ComputeBuffer crop,
      ComputeBuffer region, ComputeBuffer filter) _buffer;
@@ -25,7 +25,7 @@ public sealed partial class PosePipeline : System.IDisposable
 
     void AllocateObjects()
     {
-        _detector = (new PoseDetector.PoseDetector(_resources.pose_resource),
+        _detector = (new PoseDetector(_resources.pose_resource),
                      new PoseLandmarkDetector(_resources.landmark_resource, _upperbody));
 
         if(!_upperbody) _resources.postprocess.EnableKeyword("FULL_BODY");

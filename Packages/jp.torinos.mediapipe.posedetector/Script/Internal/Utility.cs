@@ -1,7 +1,7 @@
 using Unity.Barracuda;
 using UnityEngine;
 
-namespace MediaPipe.PoseDetector {
+namespace MediaPipe.PoseDetect {
 
 static class IWorkerExtensions
 {

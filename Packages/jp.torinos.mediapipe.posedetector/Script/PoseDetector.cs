@@ -3,7 +3,7 @@ using System.Runtime.InteropServices;
 using Unity.Barracuda;
 using UnityEngine;
 
-namespace MediaPipe.PoseDetector {
+namespace MediaPipe.PoseDetect {
 
 public sealed class PoseDetector : System.IDisposable
 {

@@ -1,6 +1,6 @@
 using UnityEngine;
 using UnityEngine.UI;
-using MediaPipe.PoseDetector;
+using MediaPipe.PoseDetect;
 
 public class VisualizeTest : MonoBehaviour
 {

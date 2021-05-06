@@ -1,7 +1,7 @@
 using UnityEngine;
 using Unity.Barracuda;
 
-namespace MediaPipe.PoseDetector {
+namespace MediaPipe.PoseDetect {
 
 [CreateAssetMenu(fileName = "PoseDetector",
                  menuName = "ScriptableObjects/MediaPipe/PoseDetector Resource Set")]
