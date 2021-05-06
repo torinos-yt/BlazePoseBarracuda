@@ -154,7 +154,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 18386575f08b26b458427a3f11d12849, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _CameraSource: Azure Kinect 4K Camera
+  _CameraSource: 
   _TextureSource: {fileID: 8400000, guid: ff797177239b0a245915fbb0f4720e76, type: 2}
   _Resolution: {x: 1080, y: 1080}
   _HFlip: 1
@@ -190,7 +190,7 @@ MonoBehaviour:
   _Resources: {fileID: 11400000, guid: 7f377500a2e434244bd7787328c86975, type: 2}
   _Shader: {fileID: 4800000, guid: 53dc2b2f98056f64d8b06137b0dd1e9a, type: 3}
   _UpperBodyOnly: 0
-  _DisplaySegmentation: 0
+  _DisplaySegmentation: 1
 --- !u!328 &33030308
 VideoPlayer:
   m_ObjectHideFlags: 0

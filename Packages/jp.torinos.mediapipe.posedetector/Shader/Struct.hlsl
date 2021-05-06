@@ -7,7 +7,7 @@ struct PoseDetection
 {
     float2 center;
     float2 extent;
-    float2 keyPoints[6];
+    float2 keyPoints[4];
     float score;
     // Padding for StructuredBuffer performance.
     // Details : https://developer.nvidia.com/content/understanding-structured-buffer-performance

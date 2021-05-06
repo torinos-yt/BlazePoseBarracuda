@@ -172,8 +172,6 @@ public sealed class PoseDetector : System.IDisposable
         public readonly Vector2 roi_full;
         public readonly Vector2 ShoulderCenter;
         public readonly Vector2 roi_upper;
-        public readonly Vector2 dumm1;
-        public readonly Vector2 dumm2;
 
         // Confidence score [0, 1]
         public readonly float score;
@@ -183,7 +181,7 @@ public sealed class PoseDetector : System.IDisposable
         public readonly float pad1, pad2, pad3;
 
         // sizeof(Detection)
-        public const int Size = 20 * sizeof(float);
+        public const int Size = 16 * sizeof(float);
     };
 
 }

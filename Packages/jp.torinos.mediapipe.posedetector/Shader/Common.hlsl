@@ -10,15 +10,14 @@
 // We can encode the geometric features of Detection into a float4x3 matrix.
 // This is handy for calculating weighted means of detections.
 
-float4x4 DetectionToMatrix(in PoseDetection d)
+float3x4 DetectionToMatrix(in PoseDetection d)
 {
-    return float4x4(d.center, d.extent,
+    return float3x4(d.center, d.extent,
                     d.keyPoints[0], d.keyPoints[1],
-                    d.keyPoints[2], d.keyPoints[3],
-                    d.keyPoints[4], d.keyPoints[5]);
+                    d.keyPoints[2], d.keyPoints[3]);
 }
 
-PoseDetection MatrixToDetection(float4x4 m, float score)
+PoseDetection MatrixToDetection(float3x4 m, float score)
 {
     PoseDetection d;
     d.center = m._m00_m01;
@@ -27,8 +26,6 @@ PoseDetection MatrixToDetection(float4x4 m, float score)
     d.keyPoints[1] = m._m12_m13;
     d.keyPoints[2] = m._m20_m21;
     d.keyPoints[3] = m._m22_m23;
-    d.keyPoints[4] = m._m30_m31;
-    d.keyPoints[5] = m._m32_m33;
     d.score = score;
     d.pad = 0;
     return d;

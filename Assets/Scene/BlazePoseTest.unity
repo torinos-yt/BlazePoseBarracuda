@@ -154,7 +154,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 18386575f08b26b458427a3f11d12849, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _CameraSource: Azure Kinect 4K Camera
+  _CameraSource: 
   _TextureSource: {fileID: 8400000, guid: ff797177239b0a245915fbb0f4720e76, type: 2}
   _Resolution: {x: 1920, y: 1080}
   _HFlip: 1
@@ -191,7 +191,7 @@ MonoBehaviour:
   _poseRegionShader: {fileID: 4800000, guid: 455c6fa12831ba1419c8824c1a1e356a, type: 3}
   _mainUI: {fileID: 748285921}
   _cropUI: {fileID: 2001604237}
-  _upperBodyOnly: 1
+  _upperBodyOnly: 0
 --- !u!328 &33030308
 VideoPlayer:
   m_ObjectHideFlags: 0
@@ -200,7 +200,7 @@ VideoPlayer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 33030304}
   m_Enabled: 1
-  m_VideoClip: {fileID: 32900000, guid: a75b4bbe6e97509449c86c2cd296c864, type: 3}
+  m_VideoClip: {fileID: 32900000, guid: 64283f93f33c7ea4abff4210a7acc940, type: 3}
   m_TargetCameraAlpha: 1
   m_TargetCamera3DLayout: 0
   m_TargetCamera: {fileID: 0}
@@ -213,14 +213,12 @@ VideoPlayer:
   m_DataSource: 0
   m_PlaybackSpeed: 1
   m_AudioOutputMode: 2
-  m_TargetAudioSources:
-  - {fileID: 0}
-  m_DirectAudioVolumes:
-  - 1
+  m_TargetAudioSources: []
+  m_DirectAudioVolumes: []
   m_Url: 
-  m_EnabledAudioTracks: 01
-  m_DirectAudioMutes: 00
-  m_ControlledAudioTrackCount: 1
+  m_EnabledAudioTracks: 
+  m_DirectAudioMutes: 
+  m_ControlledAudioTrackCount: 0
   m_PlayOnAwake: 1
   m_SkipOnDrop: 1
   m_Looping: 1

@@ -154,7 +154,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 18386575f08b26b458427a3f11d12849, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _CameraSource: Azure Kinect 4K Camera
+  _CameraSource: 
   _TextureSource: {fileID: 8400000, guid: ff797177239b0a245915fbb0f4720e76, type: 2}
   _Resolution: {x: 1080, y: 1080}
   _HFlip: 1

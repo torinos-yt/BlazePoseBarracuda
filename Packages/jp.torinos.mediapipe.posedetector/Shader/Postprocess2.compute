@@ -34,7 +34,7 @@ void Postprocess2(uint3 id : SV_DispatchThreadID)
         if (_entry[i].score == 0) continue;
         // Variables for accumulation
         float max_score = _entry[i].score;
-        float4x4 g_acc = DetectionToMatrix(_entry[i]) * max_score;
+        float3x4 g_acc = DetectionToMatrix(_entry[i]) * max_score;
         float s_acc = max_score;
 
         for (uint j = i + 1; j < entry_count; j++)
